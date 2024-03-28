@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
@@ -20,16 +18,14 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
     public ResponseEntity<String> loginUser(@RequestBody User loginUser) {
         // Find user by username
         User user = userRepository.findByUsername(loginUser.getUsername());
-
+        System.out.println(user);
         // Check if user exists and password matches
-        if (user != null && passwordEncoder.matches(loginUser.getPassword(), user.getPassword())) {
+        if (user != null && loginUser.getPassword().equals(user.getPassword())) {
             return ResponseEntity.ok("Login successful!");
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
@@ -41,7 +37,7 @@ public class UserController {
 //        List<User> users = userService.getAllUsers();
 //        return ResponseEntity.ok(users);
 //    }
-//
+
 //    @PostMapping("/register")
 //    public ResponseEntity<User> registerUser(@RequestBody User user) {
 //        User registeredUser = userService.registerUser(user);
