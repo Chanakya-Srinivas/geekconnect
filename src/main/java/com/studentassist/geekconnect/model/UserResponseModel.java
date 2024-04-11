@@ -1,32 +1,28 @@
 package com.studentassist.geekconnect.model;
+
 import com.studentassist.geekconnect.utils.UserRole;
+
 import javax.persistence.*;
 
+public class UserResponseModel {
 
-@Entity
-@Table(name = "users")
-public class User {
-
-    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private String id;
 
-    @Column(name = "username", unique = true, nullable = false)
     private String username;
 
-    @Column(name = "password", nullable = false)
-    private String password;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "role", columnDefinition = "ENUM('STUDENT', 'TA', 'PROFESSOR', 'ADMIN') DEFAULT 'STUDENT'")
     private UserRole role = UserRole.STUDENT; // Default role is STUDENT
 
-    @Column(name = "email")
     private String email;
 
-    @Column(name = "full_name")
     private String fullName;
+
+    public UserResponseModel(User user) {
+        this.id = user.getId();
+        this.fullName = user.getFullName();
+        this.email = user.getEmail();
+        this.role = user.getRole();
+        this.username = user.getUsername();
+    }
 
     // Getters and setters
     public String getId() {
@@ -43,14 +39,6 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public UserRole getRole() {
@@ -76,4 +64,5 @@ public class User {
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
+
 }
