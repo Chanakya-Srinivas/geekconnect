@@ -13,15 +13,25 @@ CREATE TABLE users (
     email VARCHAR(100),
     full_name VARCHAR(100)
 );
+--
+--INSERT INTO users (username, password, role, email, full_name) VALUES
+--     ('student1', 'password123', 'STUDENT', 'student1@example.com', 'John Doe'),
+--     ('student2', 'securepass', 'STUDENT', 'student2@example.com', 'Jane Smith'),
+--     ('ta1', 'ta@123', 'TA', 'ta1@example.com', 'Michael Johnson'),
+--     ('ta2', 'tasecure', 'TA', 'ta2@example.com', 'Emily Davis'),
+--     ('prof1', 'prof123', 'PROFESSOR', 'prof1@example.com', 'Dr. Robert Parker'),
+--     ('prof2', 'prof@secure', 'PROFESSOR', 'prof2@example.com', 'Dr. Sarah Anderson'),
+--     ('admin1', 'admin123', 'ADMIN', 'admin1@example.com', 'Admin User');
 
-INSERT INTO users (username, password, role, email, full_name) VALUES
-     ('student1', 'password123', 'STUDENT', 'student1@example.com', 'John Doe'),
-     ('student2', 'securepass', 'STUDENT', 'student2@example.com', 'Jane Smith'),
-     ('ta1', 'ta@123', 'TA', 'ta1@example.com', 'Michael Johnson'),
-     ('ta2', 'tasecure', 'TA', 'ta2@example.com', 'Emily Davis'),
-     ('prof1', 'prof123', 'PROFESSOR', 'prof1@example.com', 'Dr. Robert Parker'),
-     ('prof2', 'prof@secure', 'PROFESSOR', 'prof2@example.com', 'Dr. Sarah Anderson'),
-     ('admin1', 'admin123', 'ADMIN', 'admin1@example.com', 'Admin User');
+INSERT INTO users (id, username, password, role, email, full_name) VALUES
+     ('0447ed15-bb82-476c-bb35-471937ac4e9c', 'prof2', 'prof@secure', 'PROFESSOR', 'prof2@example.com', 'Dr. Sarah Anderson'),
+     ('07849310-109f-4503-8ec3-90286ea894f5', 'ta1', 'ta@123', 'TA', 'ta1@example.com', 'Michael Johnson'),
+     ('1d85d7c2-495b-4457-924c-c0d52189ca53', 'student2', 'securepass', 'STUDENT', 'student2@example.com', 'Jane Smith'),
+     ('2c83ba72-4cab-4593-b114-18fe8b299546', 'admin1', 'admin123', 'ADMIN', 'admin1@example.com', 'Admin User'),
+     ('627df4cb-d72a-4773-9848-d82e36e8661c', 'newuser123', 'password123', 'STUDENT', 'newuser@example.com', 'New User'),
+     ('8f126c78-998c-4b17-84cf-c4c511cd2ca0', 'student1', 'password123', 'STUDENT', 'student1@example.com', NULL),
+     ('eb79d829-5921-45b4-b9ad-4e2b5d1aacbc', 'ta2', 'tasecure', 'TA', 'ta2@example.com', 'Emily Davis'),
+     ('fc2c93d6-5998-467f-a618-b58718579cd9', 'prof1', 'prof123', 'PROFESSOR', 'prof1@example.com', 'Dr. Robert Parker');
 
 --create course table
 DROP TABLE IF EXISTS course;
@@ -70,3 +80,5 @@ INSERT INTO User_Course (id, student_Id, course_Id) VALUES
 (1, '8f126c78-998c-4b17-84cf-c4c511cd2ca0', '1'), -- User ID 1 (john_doe) enrolled in course ID 1
 (2, '1d85d7c2-495b-4457-924c-c0d52189ca53', '1'), -- User ID 2 (jane_smith) also enrolled in course ID 1
 (3, '1d85d7c2-495b-4457-924c-c0d52189ca53', '2'); -- User ID 1 (john_doe) enrolled in course ID 2 as well
+
+INSERT INTO User_Course (id, student_Id, course_Id, role) VALUES (1, '8f126c78-998c-4b17-84cf-c4c511cd2ca0', '1','STUDENT'),  (2, '1d85d7c2-495b-4457-924c-c0d52189ca53', '1','STUDENT'),  (3, '1d85d7c2-495b-4457-924c-c0d52189ca53', '2','TA');

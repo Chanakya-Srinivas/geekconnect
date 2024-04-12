@@ -1,4 +1,6 @@
 package com.studentassist.geekconnect.model;
+import com.studentassist.geekconnect.utils.UserRole;
+
 import javax.persistence.*;
 
 @Entity
@@ -7,6 +9,7 @@ public class Course {
     @Column(name = "id")
     private String id;
 
+    @Column(unique = true, nullable = false)
     private String courseName;
 
     @ManyToOne

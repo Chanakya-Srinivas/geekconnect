@@ -1,7 +1,10 @@
 package com.studentassist.geekconnect.service;
 
+import com.studentassist.geekconnect.dto.CourseWithUserRoleDTO;
+import com.studentassist.geekconnect.model.Course;
 import com.studentassist.geekconnect.model.User;
 import com.studentassist.geekconnect.responsemodel.UserResponseModel;
+import com.studentassist.geekconnect.repository.UserCourseRepository;
 import com.studentassist.geekconnect.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +17,9 @@ import java.util.Optional;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserCourseRepository userCourseRepository;
 
     public UserResponseModel getUserById(String id) {
         Optional<User> optionalUser = userRepository.findById(id);
@@ -37,6 +43,11 @@ public class UserService {
         }
         return result;
     }
+
+//    public List<CourseWithUserRoleDTO> getCoursesAndRoleByUsername(String username) {
+//        return userCourseRepository.findCoursesAndRoleByUserUsername(username);
+//    }
+
 
     // Other service methods
 }
