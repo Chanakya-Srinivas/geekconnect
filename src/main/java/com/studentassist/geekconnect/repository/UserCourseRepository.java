@@ -15,7 +15,6 @@ public interface UserCourseRepository extends JpaRepository<UserCourse, Long> {
     // Define custom query methods if needed
     List<UserCourse> findByStudentId(String userId);
 
-    List<UserCourse> findByStudentIdAndCourseId(String userId, String courseId, UserRole ta);
 //
 //    @Query("SELECT uc.course,uc.role FROM UserCourse uc " +
 //            "JOIN uc.student u " +
@@ -29,5 +28,8 @@ public interface UserCourseRepository extends JpaRepository<UserCourse, Long> {
             "JOIN uc.course c " +
             "WHERE u.username = :username")
     List<CourseWithUserRoleDTO> findCoursesAndRoleByUserUsername(@Param("username") String username);
+
+
+    List<UserCourse> findByStudentIdAndCourseId(String userId, String courseId);
 
 }

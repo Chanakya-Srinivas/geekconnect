@@ -14,18 +14,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/geekconnect/{id}/assignment")
+@RequestMapping("/api/geekconnect/{userId}/assignment")
 public class AssignmentController {
 
 
     @Autowired
     private AssignmentService assignmentService;
 
+//    @CrossOrigin
     @GetMapping("/{courseId}")
-    public ResponseEntity<UserResponse> getAssignmentsByCourseId(@PathVariable String id, @PathVariable String courseId) {
+    public ResponseEntity<UserResponse> getAssignmentsByCourseId(@PathVariable String userId, @PathVariable String courseId) {
         UserResponse response = new UserResponse();
         try {
-            List<AssignmentResponseModel> assignments = assignmentService.getAssignmentsByCourseId(id,courseId);
+            List<AssignmentResponseModel> assignments = assignmentService.getAssignmentsByCourseId(userId,courseId);
             response.setMessage("Fetched All Assignments associated to course id!");
             response.setObject(assignments);
             response.setStatus(HttpStatus.OK);
@@ -39,11 +40,12 @@ public class AssignmentController {
         }
     }
 
+//    @CrossOrigin
     @GetMapping("/students/{courseId}")
-    public ResponseEntity<UserResponse> getAllAssignmentsByCourseId(@PathVariable String id, @PathVariable String courseId) {
+    public ResponseEntity<UserResponse> getAllAssignmentsByCourseId(@PathVariable String userId, @PathVariable String courseId) {
         UserResponse response = new UserResponse();
         try {
-            List<AssignmentResponseModel> assignments = assignmentService.getAllAssignmentsByCourseId(id,courseId);
+            List<AssignmentResponseModel> assignments = assignmentService.getAllAssignmentsByCourseId(userId,courseId);
             response.setMessage("Fetched All Assignments associated to course id!");
             response.setObject(assignments);
             response.setStatus(HttpStatus.OK);
@@ -57,11 +59,12 @@ public class AssignmentController {
         }
     }
 
+    @CrossOrigin
     @GetMapping("/")
-    public ResponseEntity<UserResponse> getAllAssignments(@PathVariable String id) {
+    public ResponseEntity<UserResponse> getAllAssignments(@PathVariable String userId) {
         UserResponse response = new UserResponse();
         try {
-            List<AssignmentResponseModel> assignments = assignmentService.getAssignmentsByUserId(id);
+            List<AssignmentResponseModel> assignments = assignmentService.getAssignmentsByUserId(userId);
             response.setMessage("Fetched All Assignments associated to user id!");
             response.setObject(assignments);
             response.setStatus(HttpStatus.OK);

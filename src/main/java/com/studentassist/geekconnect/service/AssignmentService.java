@@ -73,8 +73,8 @@ public class AssignmentService {
             if(user.getRole().equals(UserRole.STUDENT) || user.getRole().equals(UserRole.ADMIN)){
                 throw new IllegalArgumentException("User " + userId + " doesn't have access : ");
             } else if (user.getRole().equals(UserRole.TA)){
-                List<UserCourse> userCourses = userCourseRepository.findByStudentIdAndCourseId(userId,courseId,UserRole.TA);
-                if(userCourses.size()==0){
+                List<UserCourse> userCourses = userCourseRepository.findByStudentIdAndCourseId(userId,courseId);
+                if(userCourses.isEmpty()){
                     throw new IllegalArgumentException("User " + userId + " doesn't have access : ");
                 }
             }
