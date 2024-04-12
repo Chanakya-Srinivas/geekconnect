@@ -1,21 +1,20 @@
 package com.studentassist.geekconnect.Response;
 
-import com.studentassist.geekconnect.model.User;
-import com.studentassist.geekconnect.model.UserResponseModel;
+import com.studentassist.geekconnect.responsemodel.UserResponseModel;
 import org.springframework.http.HttpStatus;
 
 public class UserResponse {
 
     private HttpStatus status;
     private String message;
-    private UserResponseModel user;
+    private Object object;
 
     public void setMessage(String message) {
         this.message = message;
     }
 
-    public void setUser(User user) {
-        this.user = new UserResponseModel(user);
+    public void setObject(Object obj) {
+        this.object = obj;
     }
 
     public void setStatus(HttpStatus status) {
@@ -26,8 +25,8 @@ public class UserResponse {
         return message;
     }
 
-    public UserResponseModel getUser() {
-        return user;
+    public Object getObject() {
+        return object;
     }
 
     public HttpStatus getStatus() {

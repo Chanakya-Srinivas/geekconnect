@@ -1,4 +1,6 @@
 package com.studentassist.geekconnect.model;
+import com.studentassist.geekconnect.utils.UserRole;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,6 +14,11 @@ public class UserCourse {
 
     @ManyToOne
     private Course course;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", columnDefinition = "ENUM('STUDENT', 'TA') DEFAULT 'STUDENT'")
+    private UserRole role = UserRole.STUDENT;
+
 
     public Long getId() {
         return id;
@@ -35,5 +42,13 @@ public class UserCourse {
 
     public void setCourse(Course course) {
         this.course = course;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 }

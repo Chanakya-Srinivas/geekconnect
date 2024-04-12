@@ -3,6 +3,7 @@ package com.studentassist.geekconnect.controller;
 import com.studentassist.geekconnect.Response.LoginResponse;
 import com.studentassist.geekconnect.Response.UserResponse;
 import com.studentassist.geekconnect.model.User;
+import com.studentassist.geekconnect.responsemodel.UserResponseModel;
 import com.studentassist.geekconnect.repository.UserRepository;
 import com.studentassist.geekconnect.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -51,19 +50,19 @@ public class UserController {
     @CrossOrigin
     @GetMapping("/id")
     public ResponseEntity<UserResponse> getUserInfo(@RequestParam String id) {
-        // Find user by username
-        Optional<User> user = userRepository.findById(id);
         // Check if user exists and password matches
         UserResponse response = new UserResponse();
-        if (user.isPresent()) {
+        try {
+            // Find user by username
+            UserResponseModel user = userService.getUserById(id);
             response.setMessage("Fetched User details successful!");
-            response.setUser(user.get());
+            response.setObject(user);
             response.setStatus(HttpStatus.OK);
             System.out.println(response);
             return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(response);
-        } else {
+        } catch (Exception e){
             response.setMessage("User not found");
-            response.setUser(null);
+            response.setObject(null);
             response.setStatus(HttpStatus.BAD_REQUEST);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).contentType(MediaType.APPLICATION_JSON).body(response);
         }
@@ -81,13 +80,13 @@ public class UserController {
             newUser.setId(userId);
             user = userRepository.save(newUser);
             response.setMessage("User registered successfully!");
-            response.setUser(user);
+            response.setObject(new UserResponseModel(user));
             response.setStatus(HttpStatus.OK);
             System.out.println(response);
             return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(response);
         } else {
             response.setMessage("Username already exists");
-            response.setUser(null);
+            response.setObject(null);
             response.setStatus(HttpStatus.BAD_REQUEST);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).contentType(MediaType.APPLICATION_JSON).body(response);
         }

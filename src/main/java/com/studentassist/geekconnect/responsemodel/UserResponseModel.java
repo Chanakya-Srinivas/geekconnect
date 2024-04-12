@@ -1,5 +1,6 @@
-package com.studentassist.geekconnect.model;
+package com.studentassist.geekconnect.responsemodel;
 
+import com.studentassist.geekconnect.model.User;
 import com.studentassist.geekconnect.utils.UserRole;
 
 import javax.persistence.*;
