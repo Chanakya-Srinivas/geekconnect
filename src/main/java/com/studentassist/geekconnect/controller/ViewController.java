@@ -8,17 +8,17 @@ public class ViewController {
 
     @GetMapping("/login")
     public String login() {
-        return "index.html"; // This will serve the dashboard.html file from resources/static directory
+        return "index.html";
     }
 
     @GetMapping("/dashboard")
     public String dashboard() {
-        return "dashboard.html"; // This will serve the dashboard.html file from resources/static directory
+        return "dashboard.html";
     }
 
     @GetMapping("/profile")
     public String profile() {
-        return "profile.html"; // This will serve the profile.html file from resources/static directory
+        return "profile.html";
     }
 
     // Add mappings for other frontend files as needed

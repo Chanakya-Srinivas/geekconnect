@@ -30,7 +30,7 @@
         // Login successful, redirect to dashboard
         // window.userId = data.id;
         localStorage.setItem('userId', data.id);
-        window.location.href = 'dashboard.html';
+        window.location.href = 'dashboard';
       } else {
         // Login failed, display error message
         alert(data.message);
@@ -42,6 +42,18 @@
       alert('An error occurred during login');
     });
   });
+
+      // Function to highlight the active link
+  function highlightActiveLink(pageName) {
+    const links = document.querySelectorAll('.drawer a');
+    links.forEach(link => {
+      if (link.textContent.toLowerCase() === pageName) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
+    });
+  }
   
   function loadPage(page) {
     switch (page) {
@@ -60,6 +72,7 @@
       default:
         console.error('Invalid page:', page);
     }
+    highlightActiveLink(page);
   }
   
   function fetchAssignments() {
@@ -95,28 +108,69 @@
     });
   }
   
-  function renderAssignments(assignments) {
-    let contentDiv = document.getElementById('content');
-    contentDiv.innerHTML = ''; // Clear previous content
-    
-    if (assignments.length === 0) {
-      // If no assignments found
-      contentDiv.innerHTML = '<p>No assignments found.</p>';
-    } else {
-      // Render each assignment
-      assignments.forEach(assignment => {
-        let assignmentDiv = document.createElement('div');
-        assignmentDiv.innerHTML = `
-          <h2>${assignment.assignmentName}</h2>
-          <p>Description: ${assignment.description}</p>
-          <p>Deadline: ${assignment.deadline}</p>
-          <p>Course: ${assignment.course.courseName}</p>
-          <p>Professor: ${assignment.course.professor.fullName}</p>
-        `;
-        contentDiv.appendChild(assignmentDiv);
-      });
-    }
+//  function renderAssignments(assignments) {
+//    let contentDiv = document.getElementById('content');
+//    contentDiv.innerHTML = ''; // Clear previous content
+//
+//    if (assignments.length === 0) {
+//      // If no assignments found
+//      contentDiv.innerHTML = '<p>No assignments found.</p>';
+//    } else {
+//      // Render each assignment
+//      assignments.forEach(assignment => {
+//        let assignmentDiv = document.createElement('div');
+//        assignmentDiv.innerHTML = `
+//          <h2>${assignment.assignmentName}</h2>
+//          <p>Description: ${assignment.description}</p>
+//          <p>Deadline: ${assignment.deadline}</p>
+//          <p>Course: ${assignment.course.courseName}</p>
+//          <p>Professor: ${assignment.course.professor.fullName}</p>
+//        `;
+//        contentDiv.appendChild(assignmentDiv);
+//      });
+//    }
+//  }
+
+function renderAssignments(assignments) {
+  let contentDiv = document.getElementById('content');
+  contentDiv.innerHTML = ''; // Clear previous content
+
+  if (assignments.length === 0) {
+    // If no assignments found
+    contentDiv.innerHTML = '<p>No assignments found.</p>';
+  } else {
+    // Render each assignment
+    assignments.forEach(assignment => {
+      // Fetch the assignment template file
+      fetch('assignment.html')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Failed to fetch assignment template');
+          }
+          return response.text();
+        })
+        .then(html => {
+          // Replace placeholders in the template with assignment data
+          html = html.replace('{{assignmentName}}', assignment.assignmentName)
+                     .replace('{{description}}', assignment.description)
+                     .replace('{{deadline}}', assignment.deadline)
+                     .replace('{{courseName}}', assignment.course.courseName)
+                     .replace('{{professorName}}', assignment.course.professor.fullName);
+
+          // Create a new div and set its content to the assignment HTML
+          let assignmentDiv = document.createElement('div');
+          assignmentDiv.innerHTML = html;
+          contentDiv.appendChild(assignmentDiv);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          // Display generic error message
+          alert('An error occurred while rendering assignments');
+        });
+    });
   }
+}
+
 
   function fetchProfile() {
     // Get the user ID from local storage
@@ -235,13 +289,6 @@ function renderCourses(courses) {
           html = html.replace('{{professorFullName}}', professor.fullName);
           html = html.replace('{{professorEmail}}', professor.email);
 
-//          // Create a temporary container element to insert the HTML content
-//          const tempDiv = document.createElement('div');
-//          tempDiv.innerHTML = html;
-//
-//          // Append the HTML content to the content area
-//          contentDiv.appendChild(tempDiv.firstChild);
-
           const contentDiv = document.getElementById('content');
           contentDiv.innerHTML = html;
         })
@@ -261,6 +308,6 @@ function renderCourses(courses) {
     // Perform logout actions, e.g., clearing session, redirecting to login page
     alert('Logged out successfully');
     // Redirect to login page
-    window.location.href = 'index.html';
+    window.location.href = 'login';
   }
   

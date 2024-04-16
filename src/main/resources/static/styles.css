@@ -58,4 +58,8 @@ body {
     margin-left: 200px; /* Adjust according to drawer width */
     padding: 20px;
   }
+
+  .active {
+    font-weight: bold;
+  }
   
