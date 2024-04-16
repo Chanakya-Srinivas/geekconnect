@@ -179,34 +179,82 @@
       });
   }
 
+
+function fetchCourses() {
+  const userId = localStorage.getItem('userId');
+
+//  fetch(`http://localhost:8080/api/geekconnect/user/courses/?id=${userId}`, {
+  fetch(`http://localhost:8080/api/geekconnect/courses/user/student2`, {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(data => {
+    if (data.status === 'OK') {
+      renderCourses(data.object);
+    } else {
+      alert(data.message);
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert('An error occurred while fetching courses');
+  });
+}
+
+
+function renderCourses(courses) {
+  const contentDiv = document.getElementById('content');
+  contentDiv.innerHTML = '';
+
+  if (courses.length === 0) {
+    contentDiv.innerHTML = '<p>No courses found.</p>';
+  } else {
+    courses.forEach(courseData => {
+      const course = courseData.course;
+      const professor = course.professor;
+
+      // Fetch the course template HTML file
+      fetch('course.html')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Failed to fetch course template');
+          }
+          return response.text();
+        })
+        .then(html => {
+          // Replace placeholders with actual data
+          html = html.replace('{{courseId}}', course.id);
+          html = html.replace('{{courseName}}', course.courseName);
+          html = html.replace('{{professorFullName}}', professor.fullName);
+          html = html.replace('{{professorEmail}}', professor.email);
+
+//          // Create a temporary container element to insert the HTML content
+//          const tempDiv = document.createElement('div');
+//          tempDiv.innerHTML = html;
 //
-//  function renderProfile(profileData) {
-//    // Fetch the profile template file
-//    fetch('profile.html')
-//      .then(response => {
-//        if (!response.ok) {
-//          throw new Error('Failed to fetch profile template');
-//        }
-//        return response.text();
-//      })
-//      .then(html => {
-//        // Replace placeholders in the template with profile data
-//        html = html.replace('%id%', profileData.id)
-//                   .replace('%username%', profileData.username)
-//                   .replace('%role%', profileData.role)
-//                   .replace('%email%', profileData.email)
-//                   .replace('%fullname%', profileData.fullName);
-//
-//        // Render the profile HTML content in the content area
-//        const contentDiv = document.getElementById('content');
-//        contentDiv.innerHTML = html;
-//      })
-//      .catch(error => {
-//        console.error('Error:', error);
-//        // Display generic error message
-//        alert('An error occurred while rendering profile');
-//      });
-//  }
+//          // Append the HTML content to the content area
+//          contentDiv.appendChild(tempDiv.firstChild);
+
+          const contentDiv = document.getElementById('content');
+          contentDiv.innerHTML = html;
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('An error occurred while fetching course template');
+        });
+    });
+  }
+}
+
+
+
 
   
   function logout() {
