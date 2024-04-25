@@ -1,21 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-  <div class="login-container">
-    <h2>Login</h2>
-    <form id="login-form">
-      <input type="text" id="username" placeholder="Username" required>
-      <input type="password" id="password" placeholder="Password" required>
-      <button type="submit">Login</button>
-    </form>
-  </div>
-
-  <script src="script.js"></script>
+<body class="index">
+<div class="index-container">
+    <div class="welcome-text">
+        GEEK CONNECT
+    </div>
+    <div class="index-image-container">
+        <img class="image" src="asset/pic.jpeg" alt="Background Image">
+    </div>
+    <div class="login-container">
+        <div class="index-form-container">
+            <h2>Login</h2>
+            <form id="login-form">
+                <div class="index-form-group">
+                    <label for="username" class="label">Username</label>
+                    <input type="text" id="username" class="input" placeholder="Username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="label">Password</label>
+                    <input type="password" id="password" class="input" placeholder="Password" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="button">Login</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="script.js"></script>
 </body>
 </html>

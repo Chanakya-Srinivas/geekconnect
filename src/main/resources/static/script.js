@@ -271,8 +271,8 @@ function renderCourses(courses) {
     contentDiv.innerHTML = '<p>No courses found.</p>';
   } else {
     courses.forEach(courseData => {
-      const course = courseData.course;
-      const professor = course.professor;
+//      const course = courseData.course;
+//      const professor = course.professor;
 
       // Fetch the course template HTML file
       fetch('course.html')
@@ -284,13 +284,15 @@ function renderCourses(courses) {
         })
         .then(html => {
           // Replace placeholders with actual data
-          html = html.replace('{{courseId}}', course.id);
-          html = html.replace('{{courseName}}', course.courseName);
-          html = html.replace('{{professorFullName}}', professor.fullName);
-          html = html.replace('{{professorEmail}}', professor.email);
+          html = html.replace('{{courseId}}', courseData.course.id);
+          html = html.replace('{{courseName}}',courseData.course.courseName);
+          html = html.replace('{{professorFullName}}', courseData.course.professor.fullName);
+          html = html.replace('{{professorEmail}}', courseData.course.professor.email);
 
-          const contentDiv = document.getElementById('content');
-          contentDiv.innerHTML = html;
+        // Create a new div and set its content to the assignment HTML
+          let courseDiv = document.createElement('div');
+          courseDiv.innerHTML = html;
+          contentDiv.appendChild(courseDiv);
         })
         .catch(error => {
           console.error('Error:', error);

@@ -5,14 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard</title>
   <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
-<body>
+<body class="dashboard">
   <div class="drawer">
     <ul>
-      <li><a href="#" onclick="loadPage('profile'); return false;">Profile</a></li>
-      <li><a href="#" onclick="loadPage('assignment'); return false;">Assignment</a></li>
-      <li><a href="#" onclick="loadPage('courses'); return false;">Courses</a></li>
-      <li><a href="#" onclick="logout()">Logout</a></li>
+      <li><i class="material-icons icon">person</i><a href="#" onclick="loadPage('profile'); return false;">Profile</a></li>
+      <li><i class="material-icons icon">assignment</i><a href="#" onclick="loadPage('assignment'); return false;">Assignment</a></li>
+      <li><i class="material-icons icon">bookmark</i><a href="#" onclick="loadPage('courses'); return false;">Courses</a></li>
+      <li><i class="material-icons icon">logout</i><a href="#" onclick="logout()">Logout</a></li>
     </ul>
   </div>
   <div class="content" id="content">

@@ -1,43 +1,137 @@
+body.dashboard {
+    /*font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;*/
+    background-color: #f4f4f4;
+  }
+/*style for index.html */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
   }
-  
-  .login-container {
-    width: 300px;
-    margin: 100px auto;
-    text-align: center;
+    .index-container {
+          display: flex;
+          height: 100vh;
+        }
+
+    .index-image-container {
+          flex: 1;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .image {
+          max-width: 100%;
+          max-height: 100%;
+        }
+
+        .login-container {
+          flex: 1;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+        }
+
+        .index-form-container {
+          background-color: #fff;
+          max-width: 900px;
+          min-width: 500px;
+          padding: 40px;
+          border-radius: 10px;
+          box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .index-form-container h2 {
+          margin-top: 0;
+          color: #222;
+          text-align: center;
+        }
+
+        .index-form-group {
+          margin-bottom: 30px;
+        }
+
+        .label {
+          display: block;
+          font-size: 16px;
+          margin-bottom: 5px;
+          color: #555;
+        }
+
+        .input {
+          width: 100%;
+          padding: 10px;
+          font-size: 16px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+        }
+
+        .button {
+          background-color: #000;
+          color: #fff;
+          border: none;
+          padding: 10px 20px;
+          font-size: 16px;
+          border-radius: 90px;
+          cursor: pointer;
+          transition: background-color 0.3s;
+          display: block; /* Make button a block element */
+          width: 100%; /* Make button full width */
+        }
+
+        .button:hover {
+          background-color: #333;
+        }
+        .welcome-text {
+           position: absolute; /* Position absolutely */
+          top: 50px; /* Align to top */
+          left: 50%; /* Align to center horizontally */
+          transform: translateX(-50%); /* Move back 50% of its own width */
+          font-size: 35px;
+          font-weight: bold;
+          text-align: center;
+          color: #000;
+    }
+
+ /*style for index completed */
+
+ /*style for profile.html*/
+ .profile-container {
+      background-color: #f9f9f9;
+      border-radius: 10px; /* Rounded borders */
+      padding: 30px; /* Padding for inner content */
+      width: 400px; /* Set a fixed width or adjust as needed */
+      margin: 50px auto; /* Center the container horizontally */
+      text-align: center; /* Center the text */
+      border: 1px solid #ddd;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+ }
+
+  profile-container h2 {
+     color: #333;
+     text-align: center;
   }
-  
-  .login-container h2 {
-    margin-bottom: 20px;
+
+  profile-container p {
+     margin-bottom: 10px;
+     text-align: center;
   }
-  
-  .login-container input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    box-sizing: border-box;
-  }
-  
-  .login-container button {
-    width: 100%;
-    padding: 10px;
-    background-color: #333;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-  }
-  
+ /*style for profile.html completed*/
+
+
   .drawer {
     position: fixed;
     top: 0;
     left: 0;
-    width: 200px;
+    max-width: 200px;
     height: 100%;
     background-color: #333;
     color: #fff;
+    padding: 20px;
   }
   
   .drawer ul {
@@ -47,11 +141,35 @@ body {
   
   .drawer ul li {
     padding: 10px;
+    margin-bottom: 15px;
   }
   
   .drawer ul li a {
     color: #fff;
     text-decoration: none;
+    font-size: 18px;
+    vertical-align: middle;
+  }
+
+  .icon {
+    vertical-align: middle;
+    margin-right: 5px;
+  }
+
+  .icon.person {
+    color: #ffcc00; /* Yellow color for person icon */
+  }
+
+  .icon.assignment {
+    color: #00ccff; /* Blue color for assignment icon */
+  }
+
+  .icon.bookmark {
+    color: #66ff33; /* Green color for bookmark icon */
+  }
+
+  .icon.logout {
+    color: #ff3333; /* Red color for logout icon */
   }
   
   .content {
@@ -62,4 +180,34 @@ body {
   .active {
     font-weight: bold;
   }
-  
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Styling for course containers */
+.course-container {
+  border: 1px solid #ddd;
+  background-color: #fff;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.course-container h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.course-container p {
+  margin: 5px 0;
+  color: #666;
+}
+
+.course-container p span {
+  font-weight: bold;
+}

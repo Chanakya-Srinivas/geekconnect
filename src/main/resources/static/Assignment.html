@@ -1,6 +1,47 @@
 <!-- assignment.html -->
-<h2><span id="assignment-assignmentName">{{assignmentName}}</span></h2>
-<p>Description: <span id="assignment-description">{{description}}</span></p>
-<p>Deadline: <span id="assignment-deadline">{{deadline}}</span></p>
-<p>Course: <span id="assignment-courseName">{{courseName}}</span></p>
-<p>Professor: <span id="assignment-professorName">{{professorName}}</span></p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignments</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        table {
+          border-collapse: collapse;
+          width: 100%;
+        }
+
+        th, td {
+          border: 1px solid #ddd;
+          padding: 8px;
+          text-align: left;
+        }
+
+        th {
+          background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+
+<table>
+    <tr>
+        <th>Assignment Name</th>
+        <th>Description</th>
+        <th>Deadline</th>
+        <th>Course</th>
+        <th>Professor</th>
+    </tr>
+    <tr>
+        <td><span id="assignment-assignmentName">{{assignmentName}}</span></td>
+        <td>Description: <span id="assignment-description">{{description}}</span></td>
+        <td>Deadline: <span id="assignment-deadline">{{deadline}}</span></td>
+        <td>Course: <span id="assignment-courseName">{{courseName}}</span></td>
+        <td>Professor: <span id="assignment-professorName">{{professorName}}</span></td>
+    </tr>
+</table>
+
+</body>
+</html>
