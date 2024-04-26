@@ -8,40 +8,33 @@
     <link rel="stylesheet" href="styles.css">
     <style>
         table {
-          border-collapse: collapse;
-          width: 100%;
+           border-collapse: collapse;
+           width: 100%;
         }
 
-        th, td {
-          border: 1px solid #ddd;
-          padding: 8px;
-          text-align: left;
+        th,td {
+           border: 1px solid black;
+           padding: 8px;
+           text-align: left;
+           width: 200px;
         }
 
         th {
-          background-color: #f2f2f2;
+           background-color: #f2f2f2;
         }
     </style>
 </head>
-<body>
-
-
+<body class="assignment-body">
 <table>
-    <tr>
-        <th>Assignment Name</th>
-        <th>Description</th>
-        <th>Deadline</th>
-        <th>Course</th>
-        <th>Professor</th>
-    </tr>
-    <tr>
-        <td><span id="assignment-assignmentName">{{assignmentName}}</span></td>
-        <td>Description: <span id="assignment-description">{{description}}</span></td>
-        <td>Deadline: <span id="assignment-deadline">{{deadline}}</span></td>
-        <td>Course: <span id="assignment-courseName">{{courseName}}</span></td>
-        <td>Professor: <span id="assignment-professorName">{{professorName}}</span></td>
-    </tr>
+    <tbody>
+        <tr>
+            <td><span id="assignment-assignmentName">{{assignmentName}}</span></td>
+            <td>Descriptions: <span id="assignment-description">{{description}}</span></td>
+            <td>Deadline: <span id="assignment-deadline">{{deadline}}</span></td>
+            <td>Course: <span id="assignment-courseName">{{courseName}}</span></td>
+            <td>Professor: <span id="assignment-professorName">{{professorName}}</span></td>
+        </tr>
+    </tbody>
 </table>
-
 </body>
 </html>

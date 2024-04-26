@@ -139,7 +139,20 @@ function renderAssignments(assignments) {
     // If no assignments found
     contentDiv.innerHTML = '<p>No assignments found.</p>';
   } else {
-    // Render each assignment
+    // Create table element and its header
+    let tableHTML = '<table>' +
+                      '<thead>' +
+                        '<tr>' +
+                          '<th>Assignment Name</th>' +
+                          '<th>Description</th>' +
+                          '<th>Deadline</th>' +
+                          '<th>Course</th>' +
+                          '<th>Professor</th>' +
+                        '</tr>' +
+                      '</thead>' +
+                      '<tbody>';
+
+    // Append each assignment to the table body
     assignments.forEach(assignment => {
       // Fetch the assignment template file
       fetch('assignment.html')
@@ -157,10 +170,14 @@ function renderAssignments(assignments) {
                      .replace('{{courseName}}', assignment.course.courseName)
                      .replace('{{professorName}}', assignment.course.professor.fullName);
 
-          // Create a new div and set its content to the assignment HTML
-          let assignmentDiv = document.createElement('div');
-          assignmentDiv.innerHTML = html;
-          contentDiv.appendChild(assignmentDiv);
+          // Append the assignment row to the table body
+          tableHTML += '<tr>' + html + '</tr>';
+
+          // If this is the last assignment, close the table
+          if (assignments.indexOf(assignment) === assignments.length - 1) {
+            tableHTML += '</tbody></table>';
+            contentDiv.innerHTML = tableHTML;
+          }
         })
         .catch(error => {
           console.error('Error:', error);
@@ -170,6 +187,7 @@ function renderAssignments(assignments) {
     });
   }
 }
+
 
 
   function fetchProfile() {
@@ -293,6 +311,10 @@ function renderCourses(courses) {
           let courseDiv = document.createElement('div');
           courseDiv.innerHTML = html;
           contentDiv.appendChild(courseDiv);
+
+          courseDiv.addEventListener('click', function() {
+             openCourseModal(courseData.course);
+           });
         })
         .catch(error => {
           console.error('Error:', error);
@@ -301,6 +323,42 @@ function renderCourses(courses) {
     });
   }
 }
+
+function openCourseModal(course) {
+  // Fetch the modal content HTML file
+  fetch('content.html')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Failed to fetch modal content');
+      }
+      return response.text();
+    })
+    .then(html => {
+      // Replace placeholders with course details
+      html = html.replace('{{courseName}}', course.courseName);
+      html = html.replace('{{professorName}}', course.professor.fullName);
+      html = html.replace('{{professorEmail}}', course.professor.email);
+
+      // Append modal content to body
+      document.body.insertAdjacentHTML('beforeend', html);
+
+      // Get the modal
+      let modal = document.querySelector('.modal');
+
+      // Get the close button
+      let closeButton = modal.querySelector('.close');
+
+      // Close modal when close button is clicked
+      closeButton.addEventListener('click', function() {
+        modal.remove();
+      });
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('An error occurred while fetching modal content');
+    });
+}
+
 
 
 
