@@ -35,6 +35,7 @@ public class UserController {
             response.setMessage("Login successful!");
             response.setID(user.getId());
             response.setUserName(user.getUsername());
+            response.setRole(user.getRole());
             response.setStatus(HttpStatus.OK);
             System.out.println(response);
             return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(response);

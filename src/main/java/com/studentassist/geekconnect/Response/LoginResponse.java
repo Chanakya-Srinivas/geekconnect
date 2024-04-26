@@ -2,6 +2,7 @@ package com.studentassist.geekconnect.Response;
 
 import com.mysql.cj.Session;
 import com.studentassist.geekconnect.model.User;
+import com.studentassist.geekconnect.utils.UserRole;
 import org.springframework.http.HttpStatus;
 
 public class LoginResponse {
@@ -10,7 +11,17 @@ public class LoginResponse {
     private String message;
     private String userName;
     private String id;
+    private UserRole role;
     private String sessionToken;
+
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
 
     public void setMessage(String message) {
         this.message = message;

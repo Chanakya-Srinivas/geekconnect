@@ -1,31 +1,37 @@
 package com.studentassist.geekconnect.controller;
 
 import com.studentassist.geekconnect.Response.UserResponse;
-import com.studentassist.geekconnect.dto.CourseWithUserRoleDTO;
-import com.studentassist.geekconnect.model.Course;
+import com.studentassist.geekconnect.model.Group;
 import com.studentassist.geekconnect.responsemodel.AssignmentResponseModel;
-import com.studentassist.geekconnect.service.CourseService;
+import com.studentassist.geekconnect.responsemodel.GroupResponseModel;
+import com.studentassist.geekconnect.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/geekconnect/courses")
-public class CourseController {
+@RequestMapping("/api/geekconnect/{userId}/courses/groups")
+public class GroupController {
 
     @Autowired
-    private CourseService courseService;
+    private GroupService groupService;
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<UserResponse> getCoursesByUsername(@PathVariable String userId) {
+    @GetMapping("/byCreator/{creatorId}")
+    public List<Group> getGroupsByCreatorId(@PathVariable String userId, @PathVariable Long creatorId) {
+        return groupService.getGroupsByCreatorId(userId, creatorId);
+    }
+
+    @GetMapping("/byCourse/{courseId}")
+    public ResponseEntity<UserResponse> getGroupsByCourseAndCreator(@PathVariable String userId, @PathVariable Long courseId) {
         UserResponse response = new UserResponse();
         try {
-            List<CourseWithUserRoleDTO> courses = courseService.getCoursesAndRoleByUserId(userId);
-            response.setMessage("Fetched All courses associated to  user id!");
-            response.setObject(courses);
+            List<GroupResponseModel> groups = groupService.getGroupsByCourseAndCreator(userId, courseId);
+            response.setMessage("Fetched All groups associated to course id!");
+            response.setObject(groups);
             response.setStatus(HttpStatus.OK);
             System.out.println(response);
             return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(response);
@@ -36,7 +42,5 @@ public class CourseController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).contentType(MediaType.APPLICATION_JSON).body(response);
         }
     }
-
-    // Other CRUD operations for courses can be implemented here
 }
 

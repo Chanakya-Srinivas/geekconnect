@@ -30,6 +30,7 @@
         // Login successful, redirect to dashboard
         // window.userId = data.id;
         localStorage.setItem('userId', data.id);
+        localStorage.setItem('role', data.role);
         window.location.href = 'dashboard';
       } else {
         // Login failed, display error message
@@ -43,7 +44,8 @@
     });
   });
 
-      // Function to highlight the active link
+
+  // Function to highlight the active link
   function highlightActiveLink(pageName) {
     const links = document.querySelectorAll('.drawer a');
     links.forEach(link => {
@@ -107,29 +109,7 @@
       alert('An error occurred while fetching assignments');
     });
   }
-  
-//  function renderAssignments(assignments) {
-//    let contentDiv = document.getElementById('content');
-//    contentDiv.innerHTML = ''; // Clear previous content
-//
-//    if (assignments.length === 0) {
-//      // If no assignments found
-//      contentDiv.innerHTML = '<p>No assignments found.</p>';
-//    } else {
-//      // Render each assignment
-//      assignments.forEach(assignment => {
-//        let assignmentDiv = document.createElement('div');
-//        assignmentDiv.innerHTML = `
-//          <h2>${assignment.assignmentName}</h2>
-//          <p>Description: ${assignment.description}</p>
-//          <p>Deadline: ${assignment.deadline}</p>
-//          <p>Course: ${assignment.course.courseName}</p>
-//          <p>Professor: ${assignment.course.professor.fullName}</p>
-//        `;
-//        contentDiv.appendChild(assignmentDiv);
-//      });
-//    }
-//  }
+
 
 function renderAssignments(assignments) {
   let contentDiv = document.getElementById('content');
@@ -177,6 +157,15 @@ function renderAssignments(assignments) {
           if (assignments.indexOf(assignment) === assignments.length - 1) {
             tableHTML += '</tbody></table>';
             contentDiv.innerHTML = tableHTML;
+
+            // Check user role and add floating action button if role is professor
+            const role = localStorage.getItem('role');
+            if (role === 'PROFESSOR') {
+              const floatingButton = document.createElement('div');
+              floatingButton.classList.add('floating-button');
+              floatingButton.innerHTML = '<button onclick="openAssignmentPopup()">Create Assignment</button>';
+              contentDiv.appendChild(floatingButton);
+            }
           }
         })
         .catch(error => {
@@ -187,6 +176,80 @@ function renderAssignments(assignments) {
     });
   }
 }
+
+
+//function renderAssignments(assignments) {
+//  let contentDiv = document.getElementById('content');
+//  contentDiv.innerHTML = ''; // Clear previous content
+//
+//  if (assignments.length === 0) {
+//    // If no assignments found
+//    contentDiv.innerHTML = '<p>No assignments found.</p>';
+//  } else {
+//    // Create table element and its header
+//    let tableHTML = '<table>' +
+//                      '<thead>' +
+//                        '<tr>' +
+//                          '<th>Assignment Name</th>' +
+//                          '<th>Description</th>' +
+//                          '<th>Deadline</th>' +
+//                          '<th>Course</th>' +
+//                          '<th>Professor</th>' +
+//                        '</tr>' +
+//                      '</thead>' +
+//                      '<tbody>';
+//
+//    // Append each assignment to the table body
+//    assignments.forEach(assignment => {
+//      // Replace placeholders in the template with assignment data
+//      let rowHTML = `
+//        <tr>
+//          <td>${assignment.assignmentName}</td>
+//          <td>${assignment.description}</td>
+//          <td>${assignment.deadline}</td>
+//          <td>${assignment.course.courseName}</td>
+//          <td>${assignment.course.professor.fullName}</td>
+//        </tr>
+//      `;
+//
+//      // Append the row HTML to the table
+//      tableHTML += rowHTML;
+//    });
+//
+//    // Close the table and set the content
+//    tableHTML += '</tbody></table>';
+//    contentDiv.innerHTML = tableHTML;
+//
+//    // Add or remove floating action button based on user role
+//    const role = localStorage.getItem('role');
+//    const floatingButton = document.getElementById('floatingButton');
+//
+//    if (role === 'professor') {
+//      floatingButton.classList.remove('hidden');
+//      // Add click event to the floating button
+//      floatingButton.addEventListener('click', openAssignmentPopup);
+//    } else {
+//      floatingButton.classList.add('hidden');
+//    }
+//  }
+//
+//  // Function to open the assignment creation popup
+//  function openAssignmentPopup() {
+//    const assignmentModal = document.getElementById('assignmentModal');
+//    assignmentModal.classList.remove('hidden');
+//    // Populate the popup content dynamically as needed
+//  }
+//
+//  // Create the "Create Assignment" button after rendering assignments
+//  const createAssignmentButton = document.createElement('button');
+//  createAssignmentButton.textContent = 'Create Assignment';
+//  createAssignmentButton.addEventListener('click', openAssignmentPopup);
+//
+//  // Append the button to the content div
+//  contentDiv.appendChild(createAssignmentButton);
+//}
+
+
 
 
 
@@ -255,8 +318,8 @@ function renderAssignments(assignments) {
 function fetchCourses() {
   const userId = localStorage.getItem('userId');
 
-//  fetch(`http://localhost:8080/api/geekconnect/user/courses/?id=${userId}`, {
-  fetch(`http://localhost:8080/api/geekconnect/courses/user/student2`, {
+  fetch(`http://localhost:8080/api/geekconnect/courses/user/${userId}`, {
+//  fetch(`http://localhost:8080/api/geekconnect/courses/user/student2`, {
     headers: {
       'Content-Type': 'application/json'
     }
@@ -360,6 +423,130 @@ function openCourseModal(course) {
 }
 
 
+// Function to handle assignment creation form submission
+function createAssignment(event) {
+    event.preventDefault();
+
+    const assignmentId = document.getElementById('assignmentId').value;
+    const assignmentName = document.getElementById('assignmentName').value;
+    const description = document.getElementById('description').value;
+    const deadline = document.getElementById('deadline').value;
+    const courseName = document.getElementById('courseName').value;
+
+    const requestBody = {
+        assignmentId: assignmentId,
+        assignmentName: assignmentName,
+        description: description,
+        deadline: deadline,
+        course: {
+            courseName: courseName
+        }
+    };
+
+    const userId = localStorage.getItem('userId');
+
+    fetch(`http://localhost:8080/api/geekconnect/${userId}/professor/createassignment/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestBody)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.status === 'OK') {
+            alert('Assignment created successfully!');
+            // Close the modal after successful creation
+            document.getElementById('assignmentModal').classList.add('hidden');
+            // Refresh assignments page after creation
+            loadPage('assignment');
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while creating the assignment');
+    });
+}
+
+// script.js
+
+// Function to open the assignment creation popup
+function openAssignmentPopup() {
+  const assignmentModal = document.getElementById('assignmentModal');
+  assignmentModal.classList.remove('hidden');
+}
+
+// Function to close the assignment creation popup
+function closeAssignmentPopup() {
+  const assignmentModal = document.getElementById('assignmentModal');
+  assignmentModal.classList.add('hidden');
+}
+
+// Event listener for the close button in the modal
+document.addEventListener('click', function(event) {
+  if (event.target.classList.contains('close')) {
+    closeAssignmentPopup();
+  }
+});
+
+// Event listener for form submission
+document.getElementById('assignmentForm').addEventListener('submit', function(event) {
+  event.preventDefault();
+
+  const assignmentId = document.getElementById('assignmentId').value;
+  const assignmentName = document.getElementById('assignmentName').value;
+  const description = document.getElementById('description').value;
+  const deadline = document.getElementById('deadline').value;
+  const courseName = document.getElementById('courseName').value;
+
+  const requestBody = {
+    assignmentId: assignmentId,
+    assignmentName: assignmentName,
+    description: description,
+    deadline: deadline,
+    course: {
+      courseName: courseName
+    }
+  };
+
+  const userId = localStorage.getItem('userId');
+
+  // Make the POST request to create the assignment
+  fetch(`http://localhost:8080/api/geekconnect/${userId}/professor/createassignment/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(requestBody)
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(data => {
+    // Check the response status
+    if (data.status === 'OK') {
+      alert('Assignment created successfully!');
+      closeAssignmentPopup(); // Close the popup after successful creation
+      // Optionally, you can reload assignments or perform other actions here
+    } else {
+      alert(data.message); // Display error message if creation failed
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert('An error occurred while creating the assignment');
+  });
+});
 
 
 

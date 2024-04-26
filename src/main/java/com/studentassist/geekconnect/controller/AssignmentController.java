@@ -3,6 +3,7 @@ package com.studentassist.geekconnect.controller;
 import com.studentassist.geekconnect.Response.UserResponse;
 import com.studentassist.geekconnect.model.Assignment;
 import com.studentassist.geekconnect.responsemodel.AssignmentResponseModel;
+import com.studentassist.geekconnect.responsemodel.SubmissionListResponseModel;
 import com.studentassist.geekconnect.responsemodel.UserResponseModel;
 import com.studentassist.geekconnect.service.AssignmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,7 @@ public class AssignmentController {
     public ResponseEntity<UserResponse> getAllAssignmentsByCourseId(@PathVariable String userId, @PathVariable String courseId) {
         UserResponse response = new UserResponse();
         try {
-            List<AssignmentResponseModel> assignments = assignmentService.getAllAssignmentsByCourseId(userId,courseId);
+            List<SubmissionListResponseModel> assignments = assignmentService.getAllAssignmentsByCourseId(userId,courseId);
             response.setMessage("Fetched All Assignments associated to course id!");
             response.setObject(assignments);
             response.setStatus(HttpStatus.OK);
