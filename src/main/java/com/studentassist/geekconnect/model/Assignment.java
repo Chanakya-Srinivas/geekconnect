@@ -5,7 +5,7 @@ import java.time.LocalDate;
 @Entity
 public class Assignment {
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "assignment_id")
     private String assignmentId;
 
     private String assignmentName;
